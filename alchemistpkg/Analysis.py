@@ -23,10 +23,7 @@ class Analysis():
         -------
         config : dict
             Analysis object containing consolidated parameters from the configuration files
-
         """
-
-        import yaml
 
         # list of config layer files - order by general to specific
         CONFIG_PATHS = [ 'configs/system_config.yml',
