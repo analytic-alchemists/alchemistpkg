@@ -1,1 +1,12 @@
 #
+api_token: AGKIVke1cHUkTIe8C8L8lI7DYnXQJaPJ
+plot_color: yellow
+plot_title: Number of Mentions of the Word "Pokemon" on New York Times Front Page by Year
+plot_xaxis_title: Years
+plot_yaxis_title: Number of Article Mentions
+save_path: image.png
+
+figure_size:
+- 15
+- 7
+#set figure size bar_fig.set_size_inches(15,7)
