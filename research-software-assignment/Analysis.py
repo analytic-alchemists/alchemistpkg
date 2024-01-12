@@ -12,7 +12,7 @@ class Analysis():
 
         Load system-wide configuration from 'configs/system_config.yml', 
         user configuration from 'configs/user_config.yml', 
-        and the specified analysis configuration file
+        and the specified analysis configuration file 'configs/user_config.yml'
 
         Parameters
         ----------
@@ -21,22 +21,36 @@ class Analysis():
 
         Returns
         -------
-        analysis_obj : Analysis
+        config : dict
             Analysis object containing consolidated parameters from the configuration files
 
-        Notes
-        -----
-        The configuration files should include parameters for:
-            * GitHub API token
-            * Plot color
-            * Plot title
-            * Plot x and y axis titles
-            * Figure size
-            * Default save path
         """
 
-        # Define member variables
-        self.config = {}
+        import yaml
+
+        # list of config layer files - order by general to specific
+        CONFIG_PATHS = [ 'configs/system_config.yml',
+                        'configs/user_config.yml',
+                        'analysis_config.yml']
+
+        # add analysis config to list of paths to load
+        paths_to_load = CONFIG_PATHS + [analysis_config]
+
+        # empty dictionary to add the parameters from the config files
+        config = {}
+
+        for path in paths_to_load:
+          print('Loading ' + path)
+          with open(path, 'r') as file:
+            configure = yaml.safe_load(file)
+          # method that updates/overwrites the 'configure' file as loop iterates through config files
+          # config dictionary has parameters read from the config files
+          config.update(configure)
+          print(config)
+        
+        # save instance of config for use within the Analysis Class using 'self'
+        self.config = config
+
     # end __init__
 
     def load_data(self):
