@@ -5,6 +5,6 @@ setup(
     version='0.1.0',
     author='Analytic Alchemists',
     packages=['alchemistpkg'],
-    install_requires=['matplotlib']
+    install_requires=['matplotlib', 'requests', 'pyyaml']
 )
 
