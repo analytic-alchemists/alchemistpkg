@@ -8,6 +8,7 @@ import requests
 import time
 from typing import Any, Optional
 from datetime import datetime
+import os
 
 
 
@@ -29,14 +30,16 @@ class Analysis:
         config : dict
             Analysis object containing consolidated parameters from the configuration files
         """
+        base_config_path = '../configs/'
+
 
         # list of config layer files - order by general to specific
-        CONFIG_PATHS = [ 'configs/system_config.yml',
-                        'configs/user_config.yml',
-                        'configs/analysis_config.yml']
+        CONFIG_PATHS = [ 'system_config.yml',
+                        'user_config.yml',
+                        analysis_config]
 
         # add analysis config to list of paths to load
-        paths_to_load = CONFIG_PATHS + [analysis_config]
+        paths_to_load = [os.path.join(base_config_path, path) for path in CONFIG_PATHS]
 
         # empty dictionary to add the parameters from the config files
         config = {}
@@ -183,6 +186,3 @@ class Analysis:
                     articles_date[pub_date_datetime] = [article]
 
         return articles_date
-
-
-
