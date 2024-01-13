@@ -75,7 +75,7 @@ class Analysis:
         # set api_key
         api_key = self.config['api_token']
 
-        max_pages = 1  # Maximum 100 pages for 1000 results (as per API limits)
+        max_pages = 100  # Maximum 100 pages for 1000 results (as per API limits)
         api_data = []  # List to store fetched articles
 
         # Fetch the first page to get total number of records (hits)
@@ -83,7 +83,7 @@ class Analysis:
 
         if first_page_data and 'response' in first_page_data:
             total_hits = first_page_data['response']['meta']['hits']
-            print(f"Total number of records: {total_hits}")
+            #print(f"Total number of records: {total_hits}")
 
             # Calculate the number of pages required to fetch all records
             num_pages_required = min((total_hits // 10) + 1, max_pages)
