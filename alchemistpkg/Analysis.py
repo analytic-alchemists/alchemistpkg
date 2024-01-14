@@ -14,8 +14,8 @@ class Analysis:
     def __init__(self, analysis_config:Optional[str] = None):
         """ Analysis class constructor, loads configuration files.
 
-        Load system-wide configuration from 'configs/system_config.yml', 
-        user configuration from 'configs/user_config.yml', 
+        Load system-wide configuration from 'configs/system_config.yml',
+        user configuration from 'configs/user_config.yml',
         the specified analysis configuration file 'configs/user_config.yml',
         and the given analysis_config file location (optional, default value None)
 
@@ -49,12 +49,12 @@ class Analysis:
             print('Loading ' + path)
             with open(path, 'r') as file:
                 configure = yaml.safe_load(file)
-            # method that updates/overwrites the 'configure' file 
+            # method that updates/overwrites the 'configure' file
             # as loop iterates through config files
             # config dictionary has parameters read from the config files
             config.update(configure)
             print(config)
-        
+
         # save instance of config for use within the Analysis Class using 'self'
         self.config = config
         self.articles_by_date = {}
@@ -117,7 +117,7 @@ class Analysis:
     def compute_analysis(self) -> tuple[float, float]:
         """ Analyze previously-loaded data.
 
-        This function runs an analytical measure of your choice 
+        This function runs an analytical measure of your choice
         (mean, median, linear regression, etc...)
         and returns the data in a format of your choice.
 
@@ -180,15 +180,15 @@ class Analysis:
         plt.grid(axis='y', linestyle='--', alpha=0.7)
         plt.legend()
 
-        # Display the plot to screen
-        plt.show()
-        
         # Save the plot to the specified path or the default path from the configuration file
         if save_path is None:
-            save_path = self.config.get('default_plot_save_path', 'default_plot.png')
+            save_path = self.config.get('save_path', 'default_plot.png')
 
         plt.savefig(save_path)
         print(f"Plot saved to: {save_path}")
+
+        # Display the plot to screen
+        plt.show()
 
         return plt.gcf()
 
