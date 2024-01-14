@@ -1,1 +1,2 @@
-include configs/*.yml
+recursive-include alchemistpkg/configs/*.yml
+
