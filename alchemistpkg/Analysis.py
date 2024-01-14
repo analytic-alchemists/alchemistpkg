@@ -14,8 +14,8 @@ class Analysis:
     def __init__(self, analysis_config:Optional[str] = None):
         """ Analysis class constructor, loads configuration files.
 
-        Load system-wide configuration from 'configs/system_config.yml', 
-        user configuration from 'configs/user_config.yml', 
+        Load system-wide configuration from 'configs/system_config.yml',
+        user configuration from 'configs/user_config.yml',
         the specified analysis configuration file 'configs/user_config.yml',
         and the given analysis_config file location (optional, default value None)
 
@@ -49,12 +49,12 @@ class Analysis:
             print('Loading ' + path)
             with open(path, 'r') as file:
                 configure = yaml.safe_load(file)
-            # method that updates/overwrites the 'configure' file 
+            # method that updates/overwrites the 'configure' file
             # as loop iterates through config files
             # config dictionary has parameters read from the config files
             config.update(configure)
             print(config)
-        
+
         # save instance of config for use within the Analysis Class using 'self'
         self.config = config
         self.articles_by_date = {}
@@ -117,7 +117,7 @@ class Analysis:
     def compute_analysis(self) -> tuple[float, float]:
         """ Analyze previously-loaded data.
 
-        This function runs an analytical measure of your choice 
+        This function runs an analytical measure of your choice
         (mean, median, linear regression, etc...)
         and returns the data in a format of your choice.
 
@@ -132,23 +132,66 @@ class Analysis:
         pass
     # end compute_analysis
 
-    def plot_data(self, save_path:Optional[str] = None) -> plt.Figure:
-        """ Analyze and plot data.
+    def plot_data(self, save_path: Optional[str] = None) -> plt.Figure:
+        """ Analyze and plot a line graph of the number of articles by year.
 
-        Generates a plot, display it to screen, and save it to the path
-        in the parameter 'save_path', or the path from the configuration file 
-        if not specified.
+        Generates a plot, displays it on the screen, and saves it to the path
+        specified by 'save_path', or to the default path from the configuration file
+        if 'save_path' is not provided.
 
         Parameters
         ----------
         save_path : str, optional
-            Save path for the generated figure
+            Save path for the generated figure.
 
         Returns
         -------
         fig : matplotlib.Figure
         """
-        pass
+
+        # Create a dictionary to store the count of records for each year
+        records_by_year = {}
+
+        # Iterate through articles and count records for each year
+        for article_list in self.articles_by_date.values():
+            pub_date = article_list[0].get('pub_date', '')
+            if pub_date:
+                year = datetime.strptime(pub_date, '%Y-%m-%dT%H:%M:%S%z').strftime('%Y')
+                if year in records_by_year:
+                    records_by_year[year] += 1
+                else:
+                    records_by_year[year] = 1
+
+        # Extract years and corresponding record counts
+        years = list(records_by_year.keys())
+        record_counts = list(records_by_year.values())
+
+        # Sort years chronologically
+        years.sort()
+
+        # Plotting
+        plt.figure(figsize=(12, 6))
+        plt.plot(years, record_counts, marker='o', linestyle='-', color='green', label='Records')
+        plt.title('Number of Articles per Year')
+        plt.xlabel('Year')
+        plt.ylabel('Number of Articles')
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.legend()
+
+        # Save the plot to the specified path or the default path from the configuration file
+        if save_path is None:
+            save_path = self.config.get('save_path', 'default_plot.png')
+
+        plt.savefig(save_path)
+        print(f"Plot saved to: {save_path}")
+
+        # Display the plot to screen
+        plt.show()
+
+        return plt.gcf()
+
     # end plot_data
 
     def get_articles(self, api_key: str, page=0):
