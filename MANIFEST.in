@@ -1,2 +1,2 @@
-recursive-include alchemistpkg/configs/*.yml
+include alchemistpkg/*.yml
 
