@@ -231,3 +231,15 @@ class Analysis:
                     articles_date[pub_date_datetime] = [article]
 
         return articles_date
+
+# This block will only execute when the script is run directly, not when imported as a module
+if __name__ == "__main__":
+    # Create an instance of the Analysis class
+    analysis = Analysis()
+
+    # Call the methods to load data, perform analysis, and plot data
+    analysis.load_data()         # Load data from the API
+    analysis.compute_analysis()  # Perform analysis on the loaded data
+    analysis.plot_data()         # Plot the data and save the figure
+
+    # Add any other method calls or functionality you want to test here
