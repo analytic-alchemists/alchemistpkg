@@ -30,7 +30,7 @@ class Analysis:
         config : dict
             Analysis object containing consolidated parameters from the configuration files
         """
-        base_config_path = '../configs/'
+        base_config_path = os.path.dirname(__file__)
 
 
         # list of config layer files - order by general to specific
