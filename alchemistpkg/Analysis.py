@@ -40,14 +40,23 @@ class Analysis:
         # Test if user added optional analysis_config to list of paths to load
         paths_to_load = [os.path.join(base_config_path, path) for path in CONFIG_PATHS]
         if analysis_config is not None:
+<<<<<<< HEAD
             try:
+=======
+      	    try:
+>>>>>>> 97160dc (Modified Analysis.py - load_config block to include try/except logic for testing user entry for optional analysis_config string. Also, added testing file for load config step, and deleted old file because name was confusing.)
                 if os.path.exists(analysis_config):
                     paths_to_load.append(analysis_config)
                     print(f'User provided file path is valid.')
                 else:
                     raise FileNotFoundError(f'User file path does not exist.')
+<<<<<<< HEAD
             except ValueError as e:
                 raise TypeError(f'{analysis_config} is not a string.')
+=======
+        except ValueError as e:
+            raise TypeError(f'{analysis_config} is not a string.')
+>>>>>>> 97160dc (Modified Analysis.py - load_config block to include try/except logic for testing user entry for optional analysis_config string. Also, added testing file for load config step, and deleted old file because name was confusing.)
 
         # empty dictionary to add the parameters from the config files
         config = {}
