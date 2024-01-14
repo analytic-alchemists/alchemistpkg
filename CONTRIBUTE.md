@@ -1,5 +1,7 @@
 # How to contribute to the repository
 
+## Steps
+
 Click Fork to make your own copy of the repository.
 
 ![Screenshot 2024-01-11 125536](https://github.com/mschumak/alchemistpkg/assets/3884360/e9b35a0a-f7a5-4816-9b3a-d9b23a4dd459)
@@ -71,4 +73,36 @@ Then enter command:
 
 > git pull origin main
 
-This might result in having to merge code. If so, feel free to ask for help.
+This might result in having to merge code. 
+
+# Testing Pull Requests
+
+To test a pull request before merging it with the main branch, you can clone the repository
+to a temporary location on your computer and switch to a local branch containing the pull request code.
+
+## Steps
+
+Go to a temporary directory in your terminal and clone the organization repository:
+
+> git clone git@github.com:analytic-alchemists/alchemistpkg.git
+
+Fetch the pull request code and put it in a local branch on your computer:
+
+> cd alchemistpkg
+
+> git fetch origin pull/<number>/head:<your chosen branch name>
+
+> git checkout <your chosen branch name>
+
+> cd ..
+
+Make sure the package in uninstalled:
+
+> pip uninstall alchemistpkg
+
+Install the new code as a package:
+
+> pip install ./alchemistpkg
+
+Run your test file.
+
