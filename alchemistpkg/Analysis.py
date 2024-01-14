@@ -10,48 +10,50 @@ from typing import Any, Optional
 from datetime import datetime
 import os
 
-
-
 class Analysis:
-    def __init__(self, analysis_config:str):
+    def __init__(self, analysis_config:Optional[str] = None):
         """ Analysis class constructor, loads configuration files.
 
         Load system-wide configuration from 'configs/system_config.yml', 
         user configuration from 'configs/user_config.yml', 
-        and the specified analysis configuration file 'configs/user_config.yml'
+        the specified analysis configuration file 'configs/user_config.yml',
+        and the given analysis_config file location (optional, default value None)
 
         Parameters
         ----------
-        analysis_config : str
-            Path to the analysis/job-specific configuration file
+        analysis_config : Optional[str] = None
+            Path to the analysis/job-specific configuration file, default value is None
 
         Returns
         -------
         config : dict
             Analysis object containing consolidated parameters from the configuration files
         """
+        # The base config path is the installed location of the package
         base_config_path = os.path.dirname(__file__)
-
 
         # list of config layer files - order by general to specific
         CONFIG_PATHS = [ 'system_config.yml',
                         'user_config.yml',
-                        analysis_config]
+                        'analysis_config.yml']
 
         # add analysis config to list of paths to load
         paths_to_load = [os.path.join(base_config_path, path) for path in CONFIG_PATHS]
+        if analysis_config is not None:
+            paths_to_load.append(analysis_config)
 
         # empty dictionary to add the parameters from the config files
         config = {}
 
         for path in paths_to_load:
-          print('Loading ' + path)
-          with open(path, 'r') as file:
-            configure = yaml.safe_load(file)
-          # method that updates/overwrites the 'configure' file as loop iterates through config files
-          # config dictionary has parameters read from the config files
-          config.update(configure)
-          print(config)
+            print('Loading ' + path)
+            with open(path, 'r') as file:
+                configure = yaml.safe_load(file)
+            # method that updates/overwrites the 'configure' file 
+            # as loop iterates through config files
+            # config dictionary has parameters read from the config files
+            config.update(configure)
+            print(config)
         
         # save instance of config for use within the Analysis Class using 'self'
         self.config = config
@@ -110,7 +112,7 @@ class Analysis:
         # Assign the data to articles_by_date to be accessible in the class
         self.articles_by_date = organized_articles
 
-        # end load_data
+    # end load_data
 
     def compute_analysis(self) -> tuple[float, float]:
         """ Analyze previously-loaded data.
