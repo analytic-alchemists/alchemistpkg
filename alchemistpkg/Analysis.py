@@ -1,6 +1,7 @@
 # Building Research Software Assignment
 # January 2024
 
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import yaml
@@ -121,21 +122,54 @@ class Analysis:
 
     # end load_data
 
-    def compute_analysis(self):
+    def compute_analysis(self) -> tuple[float, float]:
+        """ Analyze previously-loaded data.
+        This function calculates the mean and linear regression of the loaded data.
+        Parameters
+        --------
+        None
+        Returns
+        -------
+        analysis_output : tuple[float, float]
+            A tuple containing the mean and linear regression slope.
         """
-        Analyze previously-loaded data.
-        Calculates the total number of articles.
-
-        Returns:
-            int: Total number of articles
-        """
-        if not self.articles_by_date:
-            return None  # or appropriate default value, like 0
-
-        # Summing the number of articles for each date
-        total_articles = sum(len(articles) for articles in self.articles_by_date.values())
-        return total_articles
+        # Create a dictionary to store the count of records for each year
+        records_by_year = {}
+        # Iterate through articles and count records for each year
+        for article_list in self.articles_by_date.values():
+            pub_date = article_list[0].get('pub_date', '')
+            if pub_date:
+                year = datetime.strptime(pub_date, '%Y-%m-%dT%H:%M:%S%z').strftime('%Y')
+                if year in records_by_year:
+                    records_by_year[year] += 1
+                else:
+                    records_by_year[year] = 1
+        # Extract years and corresponding record counts
+        years = list(records_by_year.keys())
+        record_counts = list(records_by_year.values())
+        # Calculate the mean
+        mean_articles_per_year = np.mean(record_counts)
+        # Linear regression
+        x_values = np.arange(len(years))
+        slope, _ = np.polyfit(x_values, record_counts, 1)
+        return mean_articles_per_year, slope
     # end compute_analysis
+
+    def display_analysis(self):
+        """ Display the mean and linear regression on the screen.
+        This function computes and prints the mean and linear regression
+        values to the screen.
+        Parameters
+        --------
+        None
+        Returns
+        -------
+        None
+        """
+        mean_value, linear_regression_slope = self.compute_analysis()
+        print(f"Mean Number of Articles per Year: {mean_value}")
+        print(f"Linear Regression Slope: {linear_regression_slope}")
+    # end display_analysis
 
     def plot_data(self, save_path: Optional[str] = None) -> plt.Figure:
         """ Analyze and plot a line graph of the number of articles by year.
@@ -251,4 +285,39 @@ if __name__ == "__main__":
     analysis.load_data()         # Load data from the API
     analysis.compute_analysis()  # Perform analysis on the loaded data
     analysis.plot_data()         # Plot the data and save the figure
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
