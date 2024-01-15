@@ -10,6 +10,7 @@ import time
 from typing import Any, Optional
 from datetime import datetime
 import os
+import logging
 
 class Analysis:
     def __init__(self, analysis_config:Optional[str] = None):
@@ -34,6 +35,10 @@ class Analysis:
         self.config : dict
             Analysis object containing consolidated parameters from the configuration files
         """
+        # Set up logging configuration
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+
         # The base config path is the installed location of the package
         base_config_path = os.path.dirname(__file__)
 
@@ -48,7 +53,7 @@ class Analysis:
             try:
                 if os.path.exists(analysis_config):
                     paths_to_load.append(analysis_config)
-                    print(f'User provided file path is valid.')
+                    self.logger.info(f'User provided file path is valid.')
                 else:
                     raise FileNotFoundError(f'User file path does not exist.')
             except ValueError as e:
@@ -58,14 +63,14 @@ class Analysis:
         config = {}
 
         for path in paths_to_load:
-            print('Loading ' + path)
+            self.logger.info('Loading ' + path)
             with open(path, 'r') as file:
                 configure = yaml.safe_load(file)
             # method that updates/overwrites the 'configure' file
             # as loop iterates through config files
             # config dictionary has parameters read from the config files
             config.update(configure)
-            print(config)
+            #print(config)
 
         # save instance of config for use within the Analysis Class using 'self'
         self.config = config
@@ -89,11 +94,12 @@ class Analysis:
         -------
         None
         """
+        self.logger.info("Retrieving data from the New York Times API.")
 
         # set api_key
         api_key = self.config['api_token']
 
-        max_pages = 100  # Maximum 100 pages for 1000 results (as per API limits)
+        max_pages = 1  # Maximum 100 pages for 1000 results (as per API limits)
         api_data = []  # List to store fetched articles
 
         # Fetch the first page to get total number of records (hits)
@@ -101,7 +107,6 @@ class Analysis:
 
         if first_page_data and 'response' in first_page_data:
             total_hits = first_page_data['response']['meta']['hits']
-            #print(f"Total number of records: {total_hits}")
 
             # Calculate the number of pages required to fetch all records
             num_pages_required = min((total_hits // 10) + 1, max_pages)
@@ -117,13 +122,15 @@ class Analysis:
                 # NY TIMES HAS RATE LIMIT OF FIVE PER MINUTE
                 time.sleep(12)
         else:
-            print("Error fetching data from the API.")
+            self.logger.error("Error fetching data from the API.")
+
 
         # Call the function with the fetched articles data to get dates to be used for plotting
         organized_articles = self.organize_articles_by_date(api_data)
 
         # Assign the data to articles_by_date to be accessible in the class
         self.articles_by_date = organized_articles
+
 
     # end load_data
 
@@ -263,6 +270,8 @@ class Analysis:
         if response.status_code == 200:
             return response.json()
         else:
+            self.logger.error(f'Error fetching data from the API. Status code: {response.status_code}')
+            self.logger.debug(f'Response text: {response.text}')
             return None
 
     def organize_articles_by_date(self, articles_data) -> dict:
