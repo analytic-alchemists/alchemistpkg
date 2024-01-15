@@ -17,7 +17,6 @@ class Analysis:
 
         Load system-wide configuration from 'configs/system_config.yml',
         user configuration from 'configs/user_config.yml',
-        the specified analysis configuration file 'configs/user_config.yml',
         and the given analysis_config file location (optional, default value None)
 
         Parameters
@@ -27,7 +26,12 @@ class Analysis:
 
         Returns
         -------
-        config : dict
+        None
+
+        Notes
+        -----
+        Defines the value of the class member variable
+        self.config : dict
             Analysis object containing consolidated parameters from the configuration files
         """
         # The base config path is the installed location of the package
@@ -73,8 +77,9 @@ class Analysis:
         """ Retrieve data from the New York Times API.
 
         This function makes an HTTPS request to the New York Times API
-        and retrieves data for all Articles where Pokemon is on 1st Page and or on the 1st Column of Article. The data is
-        stored in the Analysis object.
+        and retrieves data for all Articles where Pokemon is on 1st Page 
+        and or on the 1st Column of Article. The retrieved records are
+        stored in a member variable of the Analysis object.
 
         Parameters
         ----------
@@ -122,16 +127,19 @@ class Analysis:
 
     # end load_data
 
-    def compute_analysis(self) -> tuple[float, float]:
+    def compute_analysis(self) -> tuple[float, float, float]:
         """ Analyze previously-loaded data.
+
         This function calculates the mean and linear regression of the loaded data.
+
         Parameters
         --------
         None
+
         Returns
         -------
-        analysis_output : tuple[float, float]
-            A tuple containing the mean and linear regression slope.
+        analysis_output : tuple[float, float, float]
+            A tuple containing the mean, linear regression slope, and linear reg. intercept.
         """
         # Create a dictionary to store the count of records for each year
         records_by_year = {}
@@ -151,24 +159,27 @@ class Analysis:
         mean_articles_per_year = np.mean(record_counts)
         # Linear regression
         x_values = np.arange(len(years))
-        slope, _ = np.polyfit(x_values, record_counts, 1)
-        return mean_articles_per_year, slope
+        slope, intercept = np.polyfit(x_values, record_counts, 1)
+        return (mean_articles_per_year, slope, intercept)
     # end compute_analysis
 
     def display_analysis(self):
-        """ Display the mean and linear regression on the screen.
+        """ Print the mean and linear regression slope and intercept to standard output.
+
         This function computes and prints the mean and linear regression
         values to the screen.
+
         Parameters
         --------
         None
+
         Returns
         -------
         None
         """
-        mean_value, linear_regression_slope = self.compute_analysis()
+        mean_value, slope, intercept = self.compute_analysis()
         print(f"Mean Number of Articles per Year: {mean_value}")
-        print(f"Linear Regression Slope: {linear_regression_slope}")
+        print(f"Linear Regression Slope and Intercept: {slope}, {intercept}")
     # end display_analysis
 
     def plot_data(self, save_path: Optional[str] = None) -> plt.Figure:
@@ -235,7 +246,6 @@ class Analysis:
         plt.show()
 
         return plt.gcf()
-
     # end plot_data
 
     def get_articles(self, api_key: str, page=0):
@@ -285,39 +295,4 @@ if __name__ == "__main__":
     analysis.load_data()         # Load data from the API
     analysis.compute_analysis()  # Perform analysis on the loaded data
     analysis.plot_data()         # Plot the data and save the figure
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

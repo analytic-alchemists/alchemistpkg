@@ -18,15 +18,15 @@ Enter commands:
 
 > cd alchemistpkg
 
-> git checkout -b <your-working-branch-name, for example dir-struct-01-11>
+> git checkout -b \<your-working-branch-name, for example dir-struct-01-11\>
 
 Work on the code!
 
-> git add <files to commit>
+> git add \<files to commit\>
 
 > git commit -m "commit message"
 
-> git push origin <your-working-branch-name>
+> git push origin \<your-working-branch-name\>
 
 Go to the group's repository on Github. You will likely see a message that you have changes ready. Click the Compare & pull request button.
 
@@ -67,7 +67,7 @@ On your terminal on your computer, enter commands:
 
 If you have work in progress, checkout your working branch:
 
-> git checkout <your-working-branch-name>
+> git checkout \<your-working-branch-name\>
 
 Then enter command:
 
@@ -90,9 +90,9 @@ Fetch the pull request code and put it in a local branch on your computer:
 
 > cd alchemistpkg
 
-> git fetch origin pull/<number>/head:<your chosen branch name>
+> git fetch origin pull/\<number\>/head:\<your chosen branch name\>
 
-> git checkout <your chosen branch name>
+> git checkout \<your chosen branch name\>
 
 > cd ..
 
