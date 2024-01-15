@@ -78,7 +78,7 @@ class Analysis:
 
     # end __init__
 
-    def load_data(self):
+    def load_data(self,maxpage: Optional[int] = None):
         """ Retrieve data from the New York Times API.
 
         This function makes an HTTPS request to the New York Times API
@@ -99,7 +99,7 @@ class Analysis:
         # set api_key
         api_key = self.config['api_token']
 
-        max_pages = 1  # Maximum 100 pages for 1000 results (as per API limits)
+        max_pages = maxpage if maxpage is not None else 100  # Maximum 100 pages for 1000 results (as per API limits)
         api_data = []  # List to store fetched articles
 
         # Fetch the first page to get total number of records (hits)
