@@ -22,7 +22,7 @@ To install the Alchemist Data Analysis package directly from GitHub, use the fol
 
 ```bash
 pip install git+https://github.com/analytic-alchemists/alchemistpkg.git
-
+```
 This command will fetch and install the latest version of the Alchemist Data Analysis package from the GitHub repository. Ensure you have Git installed on your system to use this method.
 
 ## Post-Installation Steps
@@ -37,12 +37,12 @@ To use the Alchemist Data Analysis package, follow these steps:
 ```python
     from alchemistpkg import Analysis
     analysis = Analysis()   
-
+```
 2) Load Data
 This fetches data from the New York Times API based on the configured parameters.
 ```python
 analysis.load_data()
-
+```
 3) Perform Analysis
 Analyze the frequency of articles mentioning "Pokemon" over time. This could involve calculating the number of articles per year and identifying trends.
 
@@ -50,7 +50,7 @@ Analyze the frequency of articles mentioning "Pokemon" over time. This could inv
 Create a plot based on the analysis. You can specify a filename to save the plot.
 ```python
 analysis.plot_data("filename.jpg")
-
+```
 
 
 
