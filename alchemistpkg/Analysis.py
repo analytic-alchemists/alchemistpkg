@@ -286,38 +286,3 @@ if __name__ == "__main__":
     analysis.compute_analysis()  # Perform analysis on the loaded data
     analysis.plot_data()         # Plot the data and save the figure
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
