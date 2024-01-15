@@ -114,14 +114,18 @@ class Analysis:
 
     # end load_data
 
-    def compute_analysis(self) -> tuple[float, float]:
+    def compute_analysis(self):
         """
         Analyze previously-loaded data.
-        Returns the total number of articles.
+        Calculates the total number of articles.
+
+        Returns:
+            int: Total number of articles
         """
         if not self.articles_by_date:
-            return None  # Return None if no data is loaded
+            return None  # or appropriate default value, like 0
 
+        # Summing the number of articles for each date
         total_articles = sum(len(articles) for articles in self.articles_by_date.values())
         return total_articles
     # end compute_analysis
