@@ -115,21 +115,15 @@ class Analysis:
     # end load_data
 
     def compute_analysis(self) -> tuple[float, float]:
-        """ Analyze previously-loaded data.
-
-        This function runs an analytical measure of your choice
-        (mean, median, linear regression, etc...)
-        and returns the data in a format of your choice.
-
-        Parameters
-        --------
-        None
-
-        Returns
-        -------
-        analysis_output : Any
         """
-        pass
+        Analyze previously-loaded data.
+        Returns the total number of articles.
+        """
+        if not self.articles_by_date:
+            return None  # Return None if no data is loaded
+
+        total_articles = sum(len(articles) for articles in self.articles_by_date.values())
+        return total_articles
     # end compute_analysis
 
     def plot_data(self, save_path: Optional[str] = None) -> plt.Figure:
@@ -186,6 +180,11 @@ class Analysis:
 
         plt.savefig(save_path)
         print(f"Plot saved to: {save_path}")
+        
+        #Debugging output
+        print(years)
+        print(record_counts)    
+
 
         # Display the plot to screen
         plt.show()
@@ -242,4 +241,3 @@ if __name__ == "__main__":
     analysis.compute_analysis()  # Perform analysis on the loaded data
     analysis.plot_data()         # Plot the data and save the figure
 
-    # Add any other method calls or functionality you want to test here
