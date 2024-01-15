@@ -1,14 +1,16 @@
+![analytic-alchemists-header](https://github.com/analytic-alchemists/alchemistpkg/assets/3884360/306b0521-2aa1-4cb4-b90b-58a7177fead1)
 # Building Research Software Assignment
 Assignment for the Building Research Software Course, January 2024
 
 ## Team Members and Accounts
 
-- Michael Schumaker: https://github.com/mschumak
-- Milan Bhakta: https://github.com/milanbhakta
+(alphabetical)
 - Nourin Aman: https://github.com/nourinaman
+- Milan Bhakta: https://github.com/milanbhakta
 - Raymond Fong: https://github.com/rfong1
-- Siti Nurfaezah Binti Zahari https://github.com/faezahari
 - Suzanne Michie: https://github.com/suzannemichie
+- Siti Nurfaezah Binti Zahari https://github.com/faezahari
+- Michael Schumaker: https://github.com/mschumak
 
 # Project Name: Alchemist Data Analysis
 
@@ -51,7 +53,4 @@ Create a plot based on the analysis. You can specify a filename to save the plot
 ```python
 analysis.plot_data("filename.jpg")
 ```
-
-
-
 
