@@ -46,8 +46,8 @@ class Analysis:
                     print(f'User provided file path is valid.')
                 else:
                     raise FileNotFoundError(f'User file path does not exist.')
-        except ValueError as e:
-            raise TypeError(f'{analysis_config} is not a string.')
+            except ValueError as e:
+            	raise TypeError(f'{analysis_config} is not a string.')
 
         # empty dictionary to add the parameters from the config files
         config = {}
