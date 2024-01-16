@@ -11,9 +11,11 @@ from typing import Any, Optional
 from datetime import datetime
 import os
 import logging
+import sys
+
 
 class Analysis:
-    def __init__(self, analysis_config:Optional[str] = None):
+    def __init__(self, analysis_config: Optional[str] = None):
         """ Analysis class constructor, loads configuration files.
 
         Load system-wide configuration from 'configs/system_config.yml',
@@ -43,7 +45,7 @@ class Analysis:
         base_config_path = os.path.dirname(__file__)
 
         # list of config layer files - order by general to specific
-        CONFIG_PATHS = [ 'system_config.yml',
+        CONFIG_PATHS = ['system_config.yml',
                         'user_config.yml',
                         'analysis_config.yml']
 
@@ -70,7 +72,7 @@ class Analysis:
             # as loop iterates through config files
             # config dictionary has parameters read from the config files
             config.update(configure)
-            #print(config)
+            # print(config)
 
         # save instance of config for use within the Analysis Class using 'self'
         self.config = config
@@ -78,7 +80,7 @@ class Analysis:
 
     # end __init__
 
-    def load_data(self,maxpage: Optional[int] = None):
+    def load_data(self):
         """ Retrieve data from the New York Times API.
 
         This function makes an HTTPS request to the New York Times API
@@ -97,9 +99,10 @@ class Analysis:
         self.logger.info("Retrieving data from the New York Times API.")
 
         # set api_key
-        api_key = self.config['api_token']
+        api_key = self.get_api_key()
 
-        max_pages = maxpage if maxpage is not None else 100  # Maximum 100 pages for 1000 results (as per API limits)
+        max_pages = 100 if 'pytest' not in sys.argv else 2  # Maximum 100 pages for 1000 results (as per API limits)
+
         api_data = []  # List to store fetched articles
 
         # Fetch the first page to get total number of records (hits)
@@ -124,13 +127,11 @@ class Analysis:
         else:
             self.logger.error("Error fetching data from the API.")
 
-
         # Call the function with the fetched articles data to get dates to be used for plotting
         organized_articles = self.organize_articles_by_date(api_data)
 
         # Assign the data to articles_by_date to be accessible in the class
         self.articles_by_date = organized_articles
-
 
     # end load_data
 
@@ -167,7 +168,9 @@ class Analysis:
         # Linear regression
         x_values = np.arange(len(years))
         slope, intercept = np.polyfit(x_values, record_counts, 1)
+
         return (mean_articles_per_year, slope, intercept)
+
     # end compute_analysis
 
     def display_analysis(self):
@@ -187,6 +190,7 @@ class Analysis:
         mean_value, slope, intercept = self.compute_analysis()
         print(f"Mean Number of Articles per Year: {mean_value}")
         print(f"Linear Regression Slope and Intercept: {slope}, {intercept}")
+
     # end display_analysis
 
     def plot_data(self, save_path: Optional[str] = None) -> plt.Figure:
@@ -242,17 +246,17 @@ class Analysis:
             save_path = self.config.get('save_path', 'default_plot.png')
 
         plt.savefig(save_path)
-        print(f"Plot saved to: {save_path}")
-        
-        #Debugging output
-        print(years)
-        print(record_counts)    
+        self.logger.info(f"Plot saved to: {save_path}")
 
+        # Debugging output
+        #print(years)
+        #print(record_counts)
 
         # Display the plot to screen
         plt.show()
 
         return plt.gcf()
+
     # end plot_data
 
     def get_articles(self, api_key: str, page=0):
@@ -295,13 +299,57 @@ class Analysis:
 
         return articles_date
 
+    def get_api_key(self) -> str:
+        """Get the API key based on the environment.
+
+        Returns
+        -------
+        str
+            The API key to use.
+        """
+        if self.is_running_on_colab():
+            # Running on Google Colab
+            return self.config.get('api_token_colab')
+        else:
+            # Running Else Where
+            return self.config.get('api_token')
+
+    def is_running_on_colab(self):
+        """Check if the code is running on Google Colab.
+
+        This function attempts to import the 'google.colab' module. If successful,
+        it indicates that the code is running on Google Colab.
+
+        Returns
+        -------
+        bool
+            True if running on Google Colab, False otherwise.
+
+        Examples
+        --------
+        >>> is_running_on_colab()
+        False
+
+        Note
+        ----
+        This function relies on attempting to import 'google.colab', and may not cover
+        all possible scenarios where the code could be executed.
+        """
+        try:
+            import google.colab
+            self.logger.info("Code Running on Google Colab")
+            return True
+        except ImportError:
+            self.logger.info('Running on local machine or else where')
+            return False
+
+
 # This block will only execute when the script is run directly, not when imported as a module
 if __name__ == "__main__":
     # Create an instance of the Analysis class
     analysis = Analysis()
 
     # Call the methods to load data, perform analysis, and plot data
-    analysis.load_data()         # Load data from the API
-    analysis.compute_analysis()  # Perform analysis on the loaded data
-    analysis.plot_data()         # Plot the data and save the figure
-
+    analysis.load_data()  # Load data from the API
+    analysis.display_analysis()  # Perform analysis on the loaded data and print to the screen
+    analysis.plot_data()  # Plot the data and save the figure
