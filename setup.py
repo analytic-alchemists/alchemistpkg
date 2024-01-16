@@ -6,7 +6,7 @@ setup(
     author='Analytic Alchemists',
     packages=find_packages(),
     install_requires=[
-        'numpy'
+        'numpy',
         'matplotlib', 
         'pyyaml',
         'requests'
