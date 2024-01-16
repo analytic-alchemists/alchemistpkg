@@ -3,14 +3,13 @@
 Assignment for the Building Research Software Course, January 2024
 
 ## Team Members and Accounts
-
 (alphabetical)
-- Michael Schumaker: https://github.com/mschumak
-- Milan Bhakta: https://github.com/milanbhakta
 - Nourin Aman: https://github.com/nourinaman
-- Raymond Fong: https://github.com/rfong1
-- Siti Nurfaezah Binti Zahari https://github.com/faezahari
+- Milan Bhakta: https://github.com/milanbhakta
 - Suzanne M Chalambalacis: https://github.com/suzannemichie
+- Raymond Fong: https://github.com/rfong1
+- Michael Schumaker: https://github.com/mschumak
+- Siti Nurfaezah Binti Zahari https://github.com/faezahari
 
 # Project Name: Alchemist Data Analysis
 
