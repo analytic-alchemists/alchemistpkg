@@ -11,7 +11,7 @@ from Analysis import Analysis
 
 def test_load_data():
     analysis = Analysis()
-    analysis.load_data(2)
+    analysis.load_data()
 
     # Assert that the articles_by_date attribute is not empty and has pub_date as a key
     assert analysis.articles_by_date is not None
