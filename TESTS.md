@@ -9,20 +9,11 @@ To use the Analysis package in a Colab environment, follow these steps:
 ### 1) Installation
 First, install the package using pip:
 
-```python
-!pip install git+https://github.com/user/alchemistpkg
-```
-### 2)Importing and Using the Package
-After installation, import and use the 'Analysis' class as follows: 
-
-```python
-from alchemistpkg import Analysis
-# Create an instance of the Analysis class
-# Make sure that the configuration file path is correct and accessible
-analysis_obj = Analysis('path/to/config.yml')
+```bash
+pip install git+https://github.com/analytic-alchemists/alchemistpkg.git
 ```
 
-### 3)Configuration Files and Uploading Files to Colab
+### 2) Configuration Files and Uploading Files to Colab
 The 'Analysis' class uses three configuration files:
 1. `analysis_config.yml`: This is the primary configuration file, and its path should be provided when creating an instance of the `Analysis` class.
 2. `system_config.yml`: Contains system-wide configuration settings. The `Analysis` class expects to find this file in a specific directory (e.g., the same directory as `analysis_config.yml` or a 'configs' directory).
@@ -32,18 +23,30 @@ Make sure that these files are present in the expected locations and are correct
 
 When using the package in Colab, upload `analysis_config.yml`, `system_config.yml`, and `user_config.yml` to the Colab environment. Ensure that the `Analysis` class is instantiated with the correct path to `analysis_config.yml`. The class will automatically load the other configuration files if they are in the same directory.
 
-### 4)Load data from the New York Times API
+### 3) Importing and Using the Package
+After installation, import and use the 'Analysis' class as follows: 
+
+```python
+from alchemistpkg import Analysis
+# Create an instance of the Analysis class
+# Make sure that the configuration file path is correct and accessible
+analysis_obj = Analysis('configs/analysis_config.yml')
+```
+
+### 4) Load data from the New York Times API
 ```python
 analysis_obj.load_data()
 ```
-### 5)Compute analysis
+
+### 5) Compute analysis
 ```python
 analysis_output = analysis_obj.compute_analysis()
 print(analysis_output)
 ```
-### 6)Generate and display a plot
+
+### 6) Generate and display a plot
 ```python
-analysis_figure = analysis_obj.plot_data()
+analysis_figure = analysis_obj.plot_data("pokemon_plot.png")
 ```
 
 ## Summary
