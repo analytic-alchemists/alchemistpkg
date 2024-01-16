@@ -16,7 +16,7 @@ Assignment for the Building Research Software Course, January 2024
 
 ## Description
 
-Alchemist Data Analysis is a Python package designed to fetch, analyze, and visualize data from the New York Times API, focusing on the occurrence of specific keywords (e.g., "Pokemon") in news articles. It loads various configuration settings and uses them to control aspects of data retrieval and plot generation. The package is capable of processing API responses, performing basic analytical computations, and generating visual plots to represent trends over time.
+Alchemist Data Analysis is a Python package designed to fetch, analyze, and visualize data from the New York Times API, focusing on the occurrence of specific keywords (e.g., "Pokemon") in news articles. It loads configuration settings from YAML files. These settings include the API key for the New York Times and plot features. The package is capable of processing API responses, performing computations on the article dates retrieved, and generating plots of article counts with respect to time.
 
 ## Installation
 
@@ -29,28 +29,47 @@ This command will fetch and install the latest version of the Alchemist Data Ana
 
 ## Post-Installation Steps
 
-1) Download Configuration Files: Download the configs folder, which includes system_config.yml, user_config.yml, analysis_config.yml, to your working directory. These configuration files are essential for the package to function correctly.
-2) Configuration: Ensure the configuration files are set up according to your requirements and are accessible to your Python script.
+### Download Configuration Files
+
+Download the configs folder, which includes system_config.yml, user_config.yml, and analysis_config.yml, to your working directory. 
+
+### Configuration
+
+You may make a custom config file to be read by the Alchemist package, or use the configs/analysis_config.yml file. Ensure your configuration file is accessible from your working directory.
 
 ## Usage
 To use the Alchemist Data Analysis package, follow these steps:
 
-1) Initialize the Analysis Class:
+1. Initialize the Analysis Class
 ```python
     from alchemistpkg import Analysis
-    analysis = Analysis()   
+    analysis = Analysis("configs/analysis_config.yml")   
 ```
-2) Load Data
-This fetches data from the New York Times API based on the configured parameters.
+
+2. Load Data
+This fetches data from the New York Times API. The query searches for articles on the front page
+of the New York Times that contain a specific word. In this case, "Pokemon".
 ```python
 analysis.load_data()
 ```
-3) Perform Analysis
-Analyze the frequency of articles mentioning "Pokemon" over time. This could involve calculating the number of articles per year and identifying trends.
+The function stores the publication dates of the articles for the following steps.
 
-4) Generate and View Plot
-Create a plot based on the analysis. You can specify a filename to save the plot.
+3. Perform Analysis
+This analyzes the number of articles as a function of year. It calculates the mean value over
+the full time period, and performs linear regression.
+The function returns the mean, slope, and intercept values.
+```python
+mean_val, slope, intercept = analysis.compute_analysis()
+```
+
+4. Generate and View Plot
+Create a plot displaying the number of articles as a function of year.
+If a file name is specified, the image will be saved to that location. If no file name
+is given, the save location will be retrieved from the configuration file.
 ```python
 analysis.plot_data("filename.jpg")
 ```
-
+or
+```python
+analysis.plot_data()
+```
