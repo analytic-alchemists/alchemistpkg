@@ -13,6 +13,7 @@ import os
 import logging
 
 class Analysis:
+  """A class for analyzing and plotting New York Times articles related to Pokemon."""
     def __init__(self, analysis_config:Optional[str] = None):
         """ Analysis class constructor, loads configuration files.
 
@@ -256,6 +257,20 @@ class Analysis:
     # end plot_data
 
     def get_articles(self, api_key: str, page=0):
+        """Retrieve articles from the New York Times API.
+
+        Parameters
+        ----------
+        api_key : str
+            API key for accessing the New York Times API.
+        page : int, optional
+            Page number for API request, default is 0.
+
+        Returns
+        -------
+        response : dict
+            JSON response containing articles data from the API.
+        """
         base_url = "https://api.nytimes.com/svc/search/v2/articlesearch.json"
         params = {
             "api-key": api_key,
@@ -275,6 +290,20 @@ class Analysis:
             return None
 
     def organize_articles_by_date(self, articles_data) -> dict:
+        """Retrieve articles from the New York Times API.
+
+        Parameters
+        ----------
+        api_key : str
+            API key for accessing the New York Times API.
+        page : int, optional
+            Page number for API request, default is 0.
+
+        Returns
+        -------
+        response : dict
+            JSON response containing articles data from the API.
+        """
         # Create a dictionary to store articles by date
         articles_date = {}
 
