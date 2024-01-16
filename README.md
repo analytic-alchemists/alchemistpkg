@@ -3,7 +3,6 @@
 Assignment for the Building Research Software Course, January 2024
 
 ## Team Members and Accounts
-
 (alphabetical)
 - Nourin Aman: https://github.com/nourinaman
 - Milan Bhakta: https://github.com/milanbhakta
@@ -21,7 +20,6 @@ Alchemist Data Analysis is a Python package designed to fetch, analyze, and visu
 ## Installation
 
 To install the Alchemist Data Analysis package directly from GitHub, use the following command:
-
 ```bash
 pip install git+https://github.com/analytic-alchemists/alchemistpkg.git
 ```
@@ -32,6 +30,15 @@ This command will fetch and install the latest version of the Alchemist Data Ana
 ### Download Configuration Files
 
 Download the configs folder, which includes system_config.yml, user_config.yml, and analysis_config.yml, to your working directory. 
+The fastest way to accomplish this is with git:
+```bash
+git clone https://github.com/analytic-alchemists/alchemistpkg.git
+```
+
+Copy the alchemistpkg/configs folder to your working directory:
+```bash
+cp ./alchemistpkg/configs .
+```
 
 ### Configuration
 
