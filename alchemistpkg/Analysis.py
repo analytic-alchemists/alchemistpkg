@@ -16,7 +16,8 @@ import sys
 
 
 class Analysis:
-  """A class for analyzing and plotting New York Times articles related to Pokemon."""
+    """A class for analyzing and plotting New York Times articles related to Pokemon."""
+
     def __init__(self, analysis_config: Optional[str] = None):
         """ Analysis class constructor, loads configuration files.
 
