@@ -1,3 +1,4 @@
+# Analytic Alchemists
 # Building Research Software Assignment
 # January 2024
 
@@ -78,7 +79,6 @@ class Analysis:
         # save instance of config for use within the Analysis Class using 'self'
         self.config = config
         self.articles_by_date = {}
-
     # end __init__
 
     def load_data(self):
@@ -133,7 +133,6 @@ class Analysis:
 
         # Assign the data to articles_by_date to be accessible in the class
         self.articles_by_date = organized_articles
-
     # end load_data
 
     def compute_analysis(self) -> tuple[float, float, float]:
