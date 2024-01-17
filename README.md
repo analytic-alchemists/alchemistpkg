@@ -54,6 +54,7 @@ analysis = Analysis.Analysis("configs/analysis_config.yml")
 ```
 
 2. Load Data
+
 This fetches data from the New York Times API. The query searches for articles on the front page
 of the New York Times that contain a specific word. In this case, "Pokemon".
 ```python
@@ -62,6 +63,7 @@ analysis.load_data()
 The function stores the publication dates of the articles for the following steps.
 
 3. Perform Analysis
+
 This analyzes the number of articles as a function of year. It calculates the mean value over
 the full time period, and performs linear regression.
 The function returns the mean, slope, and intercept values.
@@ -70,6 +72,7 @@ mean_val, slope, intercept = analysis.compute_analysis()
 ```
 
 4. Generate and View Plot
+
 Create a plot displaying the number of articles as a function of year.
 If a file name is specified, the image will be saved to that location. If no file name
 is given, the save location will be retrieved from the configuration file.
