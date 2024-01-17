@@ -12,40 +12,51 @@ First, install the package using pip:
 ```python
 !pip install git+https://github.com/user/alchemistpkg
 ```
-### 2)Importing and Using the Package
+
+### 2) Get Configuration Files
+Download the configs folder, which includes system_config.yml, user_config.yml, and analysis_config.yml. 
+The fastest way to accomplish this is with git:
+```python
+!git clone https://github.com/analytic-alchemists/alchemistpkg.git
+```
+
+Copy the alchemistpkg/configs folder to your working space:
+```python
+!cp ./alchemistpkg/configs .
+```
+
+### 3) Configuration
+The 'Analysis' class uses configuration files in the configs folder of the repository. Make sure that these files are present in the configs folder in the working directory. The `Analysis` class will automatically load `system_config.yml` and `user_config.yml`.
+The analysis configuration file can be customized, but it is easier to begin from a pre-existing file.
+`analysis_config.yml` is the primary configuration file, and its path or the path of a custom file should be provided when creating an instance of the `Analysis` class.
+
+### 4) Importing and Using the Package
 After installation, import and use the 'Analysis' class as follows: 
 
 ```python
 from alchemistpkg import Analysis
 # Create an instance of the Analysis class
 # Make sure that the configuration file path is correct and accessible
-analysis_obj = Analysis('path/to/config.yml')
+analysis_obj = Analysis.Analysis('configs/analysis_config.yml')
 ```
 
-### 3)Configuration Files and Uploading Files to Colab
-The 'Analysis' class uses three configuration files:
-1. `analysis_config.yml`: This is the primary configuration file, and its path should be provided when creating an instance of the `Analysis` class.
-2. `system_config.yml`: Contains system-wide configuration settings. The `Analysis` class expects to find this file in a specific directory (e.g., the same directory as `analysis_config.yml` or a 'configs' directory).
-3. `user_config.yml`: Contains user-specific settings. Similar to `system_config.yml`, the `Analysis` class will look for this file in a predefined location.
-
-Make sure that these files are present in the expected locations and are correctly configured. The `Analysis` class will automatically load `system_config.yml` and `user_config.yml` based on the location of `analysis_config.yml`.
-
-When using the package in Colab, upload `analysis_config.yml`, `system_config.yml`, and `user_config.yml` to the Colab environment. Ensure that the `Analysis` class is instantiated with the correct path to `analysis_config.yml`. The class will automatically load the other configuration files if they are in the same directory.
-
-### 4)Load data from the New York Times API
+### 5) Load data from the New York Times API
 ```python
 analysis_obj.load_data()
 ```
-### 5)Compute analysis
+### 6) Compute analysis
 ```python
 analysis_output = analysis_obj.compute_analysis()
 print(analysis_output)
 ```
-### 6)Generate and display a plot
+### 7) Generate and display a plot
 ```python
-analysis_figure = analysis_obj.plot_data()
+analysis_figure = analysis_obj.plot_data("filename.jpg")
 ```
-
+If no file name is specified, the image will be saved to the location in the configuration file.
+```python
+analysis.plot_data()
+```
 ## Summary
 In the above code: 
 - The Analysis class is imported from the alchemistpkg package.
@@ -62,8 +73,8 @@ The unit tests are divided into the following files:
   Tests for the `compute_analysis()` function. It tests the data analysis computations.
 - `test_plot_data.py`: 
   Tests for the `plot_data()` function. It ensures that the plot data function creates a plot. 
-- `test_analysis_config.py`: 
-  Tests for the configuration handling in `analysis_config.py`. It checks if configurations are loaded correctly. 
+- `test_load_config_step.py`: 
+  Tests for the configuration handling in `analysis_config.py`. It checks if configurations can load correctly. 
 
 ## Running the Test for Single Test Data
 Perform the following steps to manually test each functionality of the Analysis package:
@@ -82,9 +93,9 @@ pytest test_compute_analysis.py
 
 ###Note: This command should provide the analytical results.
 
-### 3)Test Analysis Configuration
+### 3)Test Configuration File Handling
 ```python
-pytest test_analysis_config.py
+pytest test_load_config_step.py
 ```
 
 ###Note: This command tests if configurations are loaded correctly. Verify that the required configuration parameters are present in the analysis.config object.
@@ -107,15 +118,14 @@ or
 
 ```bash
 pytest -v 
-#To see a more detailed output, including print statements from tests or the full traceback for failures or errors)
+# To see a more detailed output, including print statements from tests or the full traceback for failures or errors)
 ```
 
 ## Additional Notes
 
-- Before running the tests, ensure that all dependencies required by the Analysis package are installed in your environment.
-- Some methods, such as `load_data()`, may require internet access as they interact with external APIs. Make sure that your Colab environment has network access.
-- Review the `config.yml` file to ensure that it contains the correct settings and API keys needed for the package to function properly.
-- The Analysis package's methods should be tested in an isolated environment to ensure that they do not depend on external variables or states.
+- Before running the tests, ensure that all dependencies required by the Analysis package are installed in your environment. These should be handled by the package setup.
+- The `load_data()` function requires interaction with an external API. The New York Times API has a request rate limit. To accommodate this, the load_data function has a time delay between requests to obtain the full dataset.
+- Review `analysis_config.yml` or your custom file to ensure that it contains the correct settings and API keys needed for the package to function properly.
 
 By following these procedures, you can manually test the Analysis package's functionality in a Colab environment or any other Python environment where the package is installed.
 
