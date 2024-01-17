@@ -50,7 +50,7 @@ To use the Alchemist Data Analysis package, follow these steps:
 1. Initialize the Analysis Class
 ```python
     from alchemistpkg import Analysis
-    analysis = Analysis("configs/analysis_config.yml")   
+    analysis = Analysis.Analysis("configs/analysis_config.yml")   
 ```
 
 2. Load Data
