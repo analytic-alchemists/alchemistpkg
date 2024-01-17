@@ -37,7 +37,7 @@ git clone https://github.com/analytic-alchemists/alchemistpkg.git
 
 Copy the alchemistpkg/configs folder to your working directory:
 ```bash
-cp ./alchemistpkg/configs .
+cp -R ./alchemistpkg/configs .
 ```
 
 ### Configuration
